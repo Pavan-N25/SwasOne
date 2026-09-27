@@ -1,0 +1,22 @@
+{
+  "name": "swasone",
+  "version": "1.0.0",
+  "description": "AI-powered multilingual health assistant prototype",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "health",
+    "assistant",
+    "symptom",
+    "medicine",
+    "multilingual"
+  ],
+  "author": "Pavan-N25",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

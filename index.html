@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SwasOne | AI Health Assistant</title>
+    <meta
+      name="description"
+      content="SwasOne is an AI-powered multilingual health assistant for symptom guidance, medicine information, and nearby care." 
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="brand">
+          <div class="brand-mark">S</div>
+          <span>SwasOne</span>
+        </div>
+        <nav class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#assistant">Assistant</a>
+          <a href="#medicine">Medicine</a>
+          <a href="#nearby">Facilities</a>
+        </nav>
+        <button class="nav-cta">Get Started</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow">AI-Powered Multilingual Health Support</span>
+            <h1>Understand everyday symptoms with a smarter, kinder health companion.</h1>
+            <p>
+              SwasOne helps users describe symptoms naturally, learn about common medicines,
+              and discover nearby care with voice-enabled, multilingual assistance.
+            </p>
+            <div class="hero-actions">
+              <a href="#assistant" class="primary-btn">Try Symptom Check</a>
+              <a href="#medicine" class="secondary-btn">Explore Medicine Info</a>
+            </div>
+            <ul class="hero-points">
+              <li>Voice-based symptom input</li>
+              <li>English + Kannada support</li>
+              <li>General wellness guidance</li>
+            </ul>
+          </div>
+
+          <div class="hero-card">
+            <div class="mini-panel">
+              <div class="panel-head">
+                <span class="status-dot"></span>
+                Live Health Check
+              </div>
+              <div class="pulse-box">
+                <div class="pulse-ring"></div>
+                <div class="pulse-center">AI</div>
+              </div>
+              <div class="scan-lines">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <p class="panel-note">Listening for symptoms and wellness signals</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="features">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow alt">Why SwasOne?</span>
+            <h2>Built for people who need easy, accessible health information.</h2>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <div class="icon">🎙️</div>
+              <h3>Voice Symptom Input</h3>
+              <p>Describe symptoms in natural language and have them converted into assistant-ready text.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon">🤖</div>
+              <h3>AI Health Guidance</h3>
+              <p>Receive general health insights about possible causes, care steps, and red-flag warnings.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon">💊</div>
+              <h3>Medicine Information</h3>
+              <p>Check common uses, dosage caution, and general precautions for medicines and tablets.</p>
+            </article>
+            <article class="feature-card">
+              <div class="icon">📍</div>
+              <h3>Nearby Healthcare</h3>
+              <p>Find local clinics, hospitals, and facilities to seek care when symptoms worsen.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="assistant" class="assistant">
+        <div class="container assistant-grid">
+          <div class="assistant-copy">
+            <span class="eyebrow alt">Symptom Assistant</span>
+            <h2>Talk through your health concerns.</h2>
+            <p>
+              Enter your symptoms in English or Kannada. SwasOne will offer general guidance based on common patterns.
+            </p>
+            <div class="lang-row">
+              <label for="language">Language</label>
+              <select id="language">
+                <option value="en">English</option>
+                <option value="kn">Kannada</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="assistant-panel">
+            <div class="input-wrap">
+              <textarea id="symptomInput" rows="5" placeholder="Example: I have fever, headache and body pain since yesterday."></textarea>
+              <div class="panel-actions">
+                <button id="voiceBtn" class="voice-btn" type="button">🎙️ Use Voice</button>
+                <button id="analyzeBtn" class="primary-btn" type="button">Analyze Symptoms</button>
+              </div>
+            </div>
+
+            <div id="resultBox" class="result-box">
+              <h3>General guidance</h3>
+              <p>Describe your symptoms to receive basic health information and next steps.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="medicine" class="medicine">
+        <div class="container medicine-grid">
+          <div class="medicine-card">
+            <span class="eyebrow alt">Medicine Info</span>
+            <h2>Understand what a medicine is commonly used for.</h2>
+            <div class="medicine-search">
+              <input id="medicineInput" type="text" placeholder="Enter medicine name, e.g. Paracetamol" />
+              <button id="medicineBtn" class="primary-btn" type="button">Check Medicine</button>
+            </div>
+
+            <div class="medicine-upload-row">
+              <input id="medicineUpload" type="file" accept="image/*" capture="environment" hidden />
+              <button id="medicineUploadBtn" class="secondary-btn" type="button">📷 Upload Medicine Image</button>
+            </div>
+
+            <div id="medicinePreviewWrap" class="medicine-preview-wrap hidden">
+              <img id="medicinePreview" alt="Medicine preview" />
+            </div>
+
+            <div id="medicineResult" class="medicine-result">
+              <h3>Example: Paracetamol</h3>
+              <p>Common use: Helps reduce fever and relieve mild to moderate pain.</p>
+              <p>Precaution: Follow the recommended dose and consult a doctor if symptoms persist.</p>
+            </div>
+          </div>
+
+          <div class="medicine-side">
+            <div class="info-stack">
+              <div class="tiny-card">
+                <span>📷</span>
+                <div>
+                  <strong>Upload or capture medicine image</strong>
+                  <p>Helpful for identifying pills or tablets.</p>
+                </div>
+              </div>
+              <div class="tiny-card">
+                <span>⚠️</span>
+                <div>
+                  <strong>Not for diagnosis</strong>
+                  <p>Information is general and does not replace medical advice.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="nearby" class="nearby">
+        <div class="container">
+          <div class="section-heading">
+            <span class="eyebrow alt">Healthcare Access</span>
+            <h2>Nearby care options</h2>
+          </div>
+          <div id="facilityGrid" class="facility-grid">
+            <article class="facility-card">
+              <div class="facility-top">
+                <span class="facility-tag">Clinic</span>
+                <span class="rating">4.8 ★</span>
+              </div>
+              <h3>CityCare Health Centre</h3>
+              <p>General consultation • 1.4 km away</p>
+              <button type="button">Call Now</button>
+            </article>
+            <article class="facility-card">
+              <div class="facility-top">
+                <span class="facility-tag">Hospital</span>
+                <span class="rating">4.9 ★</span>
+              </div>
+              <h3>Grace Family Hospital</h3>
+              <p>24/7 emergency support • 3.2 km away</p>
+              <button type="button">Call Now</button>
+            </article>
+            <article class="facility-card">
+              <div class="facility-top">
+                <span class="facility-tag">Pharmacy</span>
+                <span class="rating">4.7 ★</span>
+              </div>
+              <h3>WellLife Pharmacy</h3>
+              <p>Medication guidance • 0.9 km away</p>
+              <button type="button">Call Now</button>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-box">
+        <div>
+          <h3>SwasOne</h3>
+          <p>Informational support only. Not a substitute for professional diagnosis or treatment.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#assistant">Assistant</a>
+          <a href="#medicine">Medicine</a>
+          <a href="#nearby">Facilities</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
