@@ -212,10 +212,15 @@ Open a **new terminal** in the same project directory:
 python server.py
 ```
 
+<<<<<<< HEAD
 ### 5. Open SwasOne
+=======
+Then open http://localhost:8002 in your browser. The API-backed features require this app server.
+>>>>>>> 82e0cd0 (commit)
 
 Visit:
 
+<<<<<<< HEAD
 ```text
 http://localhost:8000
 ```
@@ -342,3 +347,9 @@ This project is intended for educational, research, and hackathon purposes.
 ### Understand. Guide. Connect.
 
 ⭐ If you find SwasOne useful, consider giving the repository a **star**!
+=======
+- `public/index.html` — landing page and sections
+- `public/styles.css` — styling and responsive layout
+- `public/app.js` — symptom analysis and medicine lookup logic
+- `server.py` — local web server and API
+>>>>>>> 82e0cd0 (commit)

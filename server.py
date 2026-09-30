@@ -4,7 +4,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PORT = int(os.getenv('PORT', '8001'))
+PUBLIC_DIR = os.path.join(BASE_DIR, 'public')
+PORT = int(os.getenv('PORT', '8002'))
 
 symptom_catalog = {
     "en": {
@@ -243,7 +244,7 @@ class SwasOneHandler(BaseHTTPRequestHandler):
             return
 
         if path.startswith('/'):
-            file_path = os.path.join(BASE_DIR, path.lstrip('/'))
+            file_path = os.path.join(PUBLIC_DIR, path.lstrip('/'))
             if os.path.isfile(file_path):
                 self._serve_file(path.lstrip('/'))
                 return
@@ -291,9 +292,10 @@ class SwasOneHandler(BaseHTTPRequestHandler):
         self.wfile.write(data)
 
     def _serve_file(self, relative_path):
-        file_path = os.path.join(BASE_DIR, relative_path)
-        if not os.path.isfile(file_path):
-            file_path = os.path.join(BASE_DIR, 'index.html')
+        public_root = os.path.abspath(PUBLIC_DIR)
+        file_path = os.path.abspath(os.path.join(public_root, relative_path))
+        if os.path.commonpath((public_root, file_path)) != public_root or not os.path.isfile(file_path):
+            file_path = os.path.join(public_root, 'index.html')
 
         with open(file_path, 'rb') as file:
             content = file.read()
