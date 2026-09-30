@@ -84,12 +84,8 @@ app.get('/api/nearby-care', (req, res) => {
   res.json({ facilities: facilityCatalog });
 });
 
-app.use(express.static(path.join(__dirname)));
-
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`SwasOne server running at http://localhost:${PORT}`);
-});
+module.exports = app;
