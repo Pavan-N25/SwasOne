@@ -138,6 +138,19 @@
             </div>
           </div>
         </div>
+        <div class="container history-panel">
+          <div class="history-heading">
+            <div>
+              <span class="eyebrow alt">On this device</span>
+              <h3>Recent symptom checks</h3>
+            </div>
+            <div class="history-actions">
+              <button id="exportSymptomBtn" class="secondary-btn" type="button" disabled>Export latest report</button>
+              <button id="clearHistoryBtn" class="secondary-btn" type="button">Clear history</button>
+            </div>
+          </div>
+          <div id="symptomHistoryList" class="history-list" aria-live="polite"></div>
+        </div>
       </section>
 
       <section id="medicine" class="medicine">
@@ -192,6 +205,7 @@
           <div class="section-heading">
             <span class="eyebrow alt">Healthcare Access</span>
             <h2>Nearby care options</h2>
+            <p class="care-note">These facility cards are examples. Use Find on Maps to search for current services near you.</p>
           </div>
           <div id="facilityGrid" class="facility-grid">
             <article class="facility-card">
@@ -201,7 +215,7 @@
               </div>
               <h3>CityCare Health Centre</h3>
               <p>General consultation • 1.4 km away</p>
-              <button type="button">Call Now</button>
+              <a class="call-link" href="https://www.google.com/maps/search/?api=1&amp;query=clinic+near+me" target="_blank" rel="noopener noreferrer">Find on Maps</a>
             </article>
             <article class="facility-card">
               <div class="facility-top">
@@ -210,7 +224,7 @@
               </div>
               <h3>Grace Family Hospital</h3>
               <p>24/7 emergency support • 3.2 km away</p>
-              <button type="button">Call Now</button>
+              <a class="call-link" href="https://www.google.com/maps/search/?api=1&amp;query=hospital+near+me" target="_blank" rel="noopener noreferrer">Find on Maps</a>
             </article>
             <article class="facility-card">
               <div class="facility-top">
@@ -219,7 +233,7 @@
               </div>
               <h3>WellLife Pharmacy</h3>
               <p>Medication guidance • 0.9 km away</p>
-              <button type="button">Call Now</button>
+              <a class="call-link" href="https://www.google.com/maps/search/?api=1&amp;query=pharmacy+near+me" target="_blank" rel="noopener noreferrer">Find on Maps</a>
             </article>
           </div>
         </div>

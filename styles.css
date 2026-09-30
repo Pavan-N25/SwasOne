@@ -301,6 +301,13 @@ select {
   margin-bottom: 26px;
 }
 
+.care-note {
+  max-width: 680px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .section-heading h2,
 .assistant-copy h2,
 .medicine-card h2 {
@@ -352,6 +359,74 @@ select {
 .assistant-panel,
 .medicine-card {
   padding: 24px;
+}
+
+.history-panel {
+  margin-top: 28px;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+}
+
+.history-heading,
+.history-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.history-heading h3 {
+  margin: 12px 0 0;
+}
+
+.history-actions {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.history-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.history-empty,
+.history-item {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.history-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.history-item:hover {
+  border-color: var(--primary);
+}
+
+.history-item span,
+.history-empty {
+  color: var(--muted);
+}
+
+.history-item strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.history-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .lang-row {
@@ -497,11 +572,22 @@ select {
   font-weight: 700;
 }
 
-.facility-card button {
+.facility-card .call-link {
+  display: block;
   width: 100%;
   margin-top: 12px;
   padding: 12px 16px;
   font-weight: 700;
+  text-align: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  box-shadow: 0 15px 30px rgba(17, 153, 142, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.facility-card .call-link:hover {
+  transform: translateY(-1px);
 }
 
 .footer {
@@ -569,5 +655,14 @@ select {
 
   .footer-box {
     flex-direction: column;
+  }
+
+  .history-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .history-actions {
+    justify-content: flex-start;
   }
 }

@@ -11,6 +11,92 @@ const medicinePreview = document.getElementById('medicinePreview');
 const medicinePreviewWrap = document.getElementById('medicinePreviewWrap');
 const medicineResult = document.getElementById('medicineResult');
 const facilityGrid = document.getElementById('facilityGrid');
+const symptomHistoryList = document.getElementById('symptomHistoryList');
+const exportSymptomBtn = document.getElementById('exportSymptomBtn');
+const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+const symptomHistoryKey = 'swasone.symptomHistory';
+let latestSymptomResult = null;
+
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[character]);
+}
+
+function readSymptomHistory() {
+  try {
+    const history = JSON.parse(localStorage.getItem(symptomHistoryKey) || '[]');
+    return Array.isArray(history) ? history : [];
+  } catch {
+    return [];
+  }
+}
+
+function renderSymptomHistory() {
+  const history = readSymptomHistory();
+  symptomHistoryList.innerHTML = history.length
+    ? history.map((item) => `
+      <button class="history-item" type="button" data-history-id="${escapeHTML(item.id)}">
+        <span><strong>${escapeHTML(item.title)}</strong>${escapeHTML(item.input)}</span>
+        <time datetime="${escapeHTML(item.createdAt)}">${new Date(item.createdAt).toLocaleString()}</time>
+      </button>
+    `).join('')
+    : '<p class="history-empty">Your recent checks will appear here. They stay in this browser on this device.</p>';
+}
+
+function showSymptomResult(data, save = true) {
+  latestSymptomResult = { ...data, createdAt: new Date().toISOString() };
+  resultBox.innerHTML = `
+    <h3>${escapeHTML(data.title)}</h3>
+    <p>${escapeHTML(data.overview)}</p>
+    <div>
+      <strong>Suggested next steps:</strong>
+      <ul>${(data.nextSteps || []).map((step) => `<li>${escapeHTML(step)}</li>`).join('')}</ul>
+    </div>
+    <p><strong>Warning:</strong> ${escapeHTML(data.redFlags)}</p>
+    <p><strong>Input:</strong> ${escapeHTML(data.input)}</p>
+  `;
+  exportSymptomBtn.disabled = false;
+
+  if (save) {
+    const history = readSymptomHistory();
+    history.unshift({ ...latestSymptomResult, id: String(Date.now()) });
+    try {
+      localStorage.setItem(symptomHistoryKey, JSON.stringify(history.slice(0, 10)));
+      renderSymptomHistory();
+    } catch (error) {
+      console.error('Unable to save symptom history', error);
+    }
+  }
+}
+
+function exportSymptomReport() {
+  if (!latestSymptomResult) return;
+  const report = [
+    'SwasOne symptom guidance report',
+    `Date: ${new Date(latestSymptomResult.createdAt).toLocaleString()}`,
+    `Symptoms: ${latestSymptomResult.input}`,
+    `Guidance: ${latestSymptomResult.title}`,
+    latestSymptomResult.overview,
+    'Suggested next steps:',
+    ...(latestSymptomResult.nextSteps || []).map((step) => `- ${step}`),
+    `Warning signs: ${latestSymptomResult.redFlags || 'Follow professional medical advice if concerned.'}`,
+    '',
+    'Informational support only. Not a diagnosis or substitute for professional care.'
+  ].join('\n');
+  const url = URL.createObjectURL(new Blob([report], { type: 'text/plain;charset=utf-8' }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'swasone-symptom-report.txt';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
 
 const fallbackSymptomData = {
   en: {
@@ -99,11 +185,14 @@ function renderFallbackSymptomResult() {
   const type = detectSymptomType(text || '');
   const content = fallbackSymptomData[lang][type] || fallbackSymptomData[lang].default;
 
-  resultBox.innerHTML = `
-    <h3>${content.title}</h3>
-    <p>${content.body}</p>
-    <p><strong>Input:</strong> ${text || 'No symptoms provided yet.'}</p>
-  `;
+  showSymptomResult({
+    title: content.title,
+    overview: content.body,
+    nextSteps: [],
+    redFlags: '',
+    input: text,
+    language: lang
+  });
 
   if ('speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(`${content.title}. ${content.body}`);
@@ -133,18 +222,7 @@ async function analyzeSymptoms() {
     if (!response.ok) throw new Error('Request failed');
     const data = await response.json();
 
-    resultBox.innerHTML = `
-      <h3>${data.title}</h3>
-      <p>${data.overview}</p>
-      <div>
-        <strong>Suggested next steps:</strong>
-        <ul>
-          ${data.nextSteps.map((step) => `<li>${step}</li>`).join('')}
-        </ul>
-      </div>
-      <p><strong>Warning:</strong> ${data.redFlags}</p>
-      <p><strong>Input:</strong> ${data.input}</p>
-    `;
+    showSymptomResult(data);
 
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(`${data.title}. ${data.overview}. ${data.redFlags}`);
@@ -169,9 +247,9 @@ async function loadNearbyCare() {
           <span class="facility-tag">${facility.type}</span>
           <span class="rating">${facility.rating.toFixed(1)} ★</span>
         </div>
-        <h3>${facility.name}</h3>
-        <p>${facility.type} • ${facility.distance}</p>
-        <button type="button">Call Now</button>
+        <h3>${escapeHTML(facility.name)}</h3>
+        <p>${escapeHTML(facility.type)} • ${escapeHTML(facility.distance)}</p>
+        <a class="call-link" href="https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(`${facility.type} near me`)}" target="_blank" rel="noopener noreferrer">Find on Maps</a>
       </article>
     `).join('');
   } catch (error) {
@@ -253,6 +331,23 @@ medicineUpload.addEventListener('change', (event) => {
 
 analyzeBtn.addEventListener('click', analyzeSymptoms);
 
+symptomHistoryList.addEventListener('click', (event) => {
+  const button = event.target.closest('[data-history-id]');
+  if (!button) return;
+  const entry = readSymptomHistory().find((item) => item.id === button.dataset.historyId);
+  if (!entry) return;
+  symptomInput.value = entry.input;
+  showSymptomResult(entry, false);
+  document.getElementById('assistant').scrollIntoView({ behavior: 'smooth' });
+});
+
+exportSymptomBtn.addEventListener('click', exportSymptomReport);
+
+clearHistoryBtn.addEventListener('click', () => {
+  localStorage.removeItem(symptomHistoryKey);
+  renderSymptomHistory();
+});
+
 voiceBtn.addEventListener('click', () => {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -299,3 +394,4 @@ languageSelect.addEventListener('change', () => {
 });
 
 loadNearbyCare();
+renderSymptomHistory();

@@ -9,6 +9,9 @@ SwasOne is an AI-powered, voice-enabled, multilingual health assistant built as 
 - English and Kannada language support
 - Medicine lookup information
 - Nearby facility cards
+- Recent symptom history stored locally in the browser, with restore and clear controls
+- Exportable symptom guidance reports
+- Google Maps searches for real nearby care facilities
 - Responsive health-focused user interface
 
 ## Disclaimer
@@ -17,14 +20,14 @@ This project is for informational health assistance only and is not a replacemen
 
 ## Run locally
 
-Open the index.html file in a browser, or serve the project with a local web server:
+Start the Python app server from the project folder:
 
 ```bash
 cd "c:/Users/nmour/OneDrive/Documents/3rd SEM/SwasOne"
-python -m http.server 8000
+python server.py
 ```
 
-Then open http://localhost:8000 in your browser.
+Then open http://localhost:8001 in your browser. The API-backed features require this app server.
 
 ## Project structure
 
